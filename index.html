@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قائمة المهام</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            width: 100%;
+            max-width: 400px;
+            margin: 20px auto;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .input-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 75%;
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 8px 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .task-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .task-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            margin: 5px 0;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .task-list li.completed {
+            text-decoration: line-through;
+            background-color: #e0e0e0;
+        }
+
+        .task-list button {
+            background-color: #f44336;
+        }
+
+        .task-list button:hover {
+            background-color: #d32f2f;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 100%;
+                padding: 15px;
+            }
+
+            input {
+                width: 60%;
+            }
+
+            button {
+                width: 35%;
+            }
+        }
+    </style>
+</head>
+<body>
+<h1>تم انشاء هذه النسخة التجريبية للاستاذة <strong>Reham M.</strong> للاطلاع عليها</h1>
+    <div class="container">
+        <h1>قائمة المهام</h1>
+
+        <!-- إدخال المهمة الجديدة -->
+        <div class="input-container">
+            <input type="text" id="newTask" placeholder="أدخل مهمة جديدة">
+            <button onclick="addTask()">إضافة مهمة</button>
+        </div>
+
+        <!-- عرض قائمة المهام -->
+        <ul id="taskList" class="task-list">
+            <!-- سيتم إضافة المهام هنا -->
+        </ul>
+    </div>
+
+    <script>
+        // الحصول على العناصر من HTML
+        const taskList = document.getElementById("taskList");
+        const newTaskInput = document.getElementById("newTask");
+
+        // دالة لإضافة مهمة جديدة
+        function addTask() {
+            const taskText = newTaskInput.value.trim();
+            if (taskText) {
+                const taskId = Date.now();  // استخدام تاريخ الوقت كـ ID فريد
+                const taskItem = document.createElement("li");
+                taskItem.setAttribute("data-id", taskId);
+
+                taskItem.innerHTML = `
+                    <span>${taskText}</span>
+                    <button onclick="toggleTask(${taskId})">تحديد كمُنجزة</button>
+                    <button onclick="deleteTask(${taskId})">حذف</button>
+                `;
+
+                taskList.appendChild(taskItem);
+                newTaskInput.value = "";  // مسح حقل الإدخال بعد الإضافة
+            }
+        }
+
+        // دالة لتحديد المهمة كمُنجزة
+        function toggleTask(taskId) {
+            const taskItem = document.querySelector(`[data-id='${taskId}']`);
+            taskItem.classList.toggle("completed");
+            const button = taskItem.querySelectorAll("button")[0];
+            button.textContent = taskItem.classList.contains("completed") ? "مُنجزة" : "تحديد كمُنجزة";
+        }
+
+        // دالة لحذف المهمة
+        function deleteTask(taskId) {
+            const taskItem = document.querySelector(`[data-id='${taskId}']`);
+            taskItem.remove();
+        }
+    </script>
+
+</body>
+</html>
